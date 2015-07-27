@@ -2,26 +2,23 @@
 
 namespace EMS\Controllers;
 
-use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
-
 class SatelliteController
-    implements ControllerInterface
+    extends ControllerAbstract
 {
-    public function index(Application $app, Request $request)
+    public function index()
     {
-        $result = $app['db']->fetchAll('SELECT * FROM satellites');
-        return $app->json($result);
+        $result = $this->app['db']->fetchAll('SELECT * FROM satellites');
+        return $this->app->json($result);
     }
 
-    public function show(Application $app, Request $request, $satellite)
+    public function show($satellite)
     {
-        $builder = $app['db']->createQueryBuilder();
+        $builder = $this->app['db']->createQueryBuilder();
         $builder->select('*')->from('satellites')->where('name = :name')
             ->setParameter(':name', $satellite);
         $handle = $builder->execute();
         $result = $handle->fetch();
 
-        return $app->json($result);
+        return $this->app->json($result);
     }
 }

@@ -2,26 +2,23 @@
 
 namespace EMS\Controllers;
 
-use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
-
 class GasController
-    implements ControllerInterface
+    extends ControllerAbstract
 {
-    public function index(Application $app, Request $request)
+    public function index()
     {
-        $result = $app['db']->fetchAll('SELECT * FROM gases');
-        return $app->json($result);
+        $result = $this->app['db']->fetchAll('SELECT * FROM gases');
+        return $this->app->json($result);
     }
 
-    public function show(Application $app, Request $request, $formula)
+    public function show($formula)
     {
-        $builder = $app['db']->createQueryBuilder();
+        $builder = $this->app['db']->createQueryBuilder();
         $builder->select('*')->from('gases')->where('formula = :name')
             ->setParameter(':name', $formula);
         $handle = $builder->execute();
         $result = $handle->fetch();
 
-        return $app->json($result);
+        return $this->app->json($result);
     }
 }

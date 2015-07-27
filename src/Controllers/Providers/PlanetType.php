@@ -10,8 +10,8 @@ class PlanetType
     public function connect(Application $app)
     {
         $planetTypes = $app['controllers_factory'];
-        $planetTypes->get('/', "EMS\\Controllers\\PlanetTypeController::index");
-        $planetTypes->get('/{type}', "EMS\\Controllers\\PlanetTypeController::show");
+        $planetTypes->get('/', "planet_types.controller:index");
+        $planetTypes->get('/{type}', "planet_types.controller:show");
         return $planetTypes;
     }
 }

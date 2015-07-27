@@ -10,8 +10,8 @@ class Satellite
     public function connect(Application $app)
     {
         $satellites = $app['controllers_factory'];
-        $satellites->get('/', "EMS\\Controllers\\SatelliteController::index");
-        $satellites->get('/{satellite}', "EMS\\Controllers\\SatelliteController::show");
+        $satellites->get('/', "satellites.controller:index");
+        $satellites->get('/{satellite}', "satellites.controller:show");
         return $satellites;
     }
 }

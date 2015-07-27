@@ -2,26 +2,23 @@
 
 namespace EMS\Controllers;
 
-use Silex\Application;
-use Symfony\Component\HttpFoundation\Request;
-
 class PlanetTypeController
-    implements ControllerInterface
+    extends ControllerAbstract
 {
-    public function index(Application $app, Request $request)
+    public function index()
     {
-        $result = $app['db']->fetchAll('SELECT * FROM types');
-        return $app->json($result);
+        $result = $this->app['db']->fetchAll('SELECT * FROM types');
+        return $this->app->json($result);
     }
 
-    public function show(Application $app, Request $request, $type)
+    public function show($type)
     {
-        $builder = $app['db']->createQueryBuilder();
+        $builder = $this->app['db']->createQueryBuilder();
         $builder->select('*')->from('types')->where('type = :name')
             ->setParameter(':name', $type);
         $handle = $builder->execute();
         $result = $handle->fetch();
 
-        return $app->json($result);
+        return $this->app->json($result);
     }
 }

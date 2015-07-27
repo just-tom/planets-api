@@ -10,8 +10,8 @@ class Gas
     public function connect(Application $app)
     {
         $gases = $app['controllers_factory'];
-        $gases->get('/', "EMS\\Controllers\\GasController::index");
-        $gases->get('/{formula}', "EMS\\Controllers\\GasController::show");
+        $gases->get('/', "gases.controller:index");
+        $gases->get('/{formula}', "gases.controller:show");
         return $gases;
     }
 }
