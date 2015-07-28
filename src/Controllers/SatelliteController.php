@@ -23,4 +23,11 @@ class SatelliteController
             ->getPlanetsForSatellite($satellite);
         return $this->app->json($result);
     }
+
+    public function showSinglePlanet($satellite, $name)
+    {
+        $result = $this->app['planets.repository']
+            ->getPlanetForSatellite($satellite, $name);
+        return $this->app->json($result);
+    }
 }

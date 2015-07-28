@@ -41,7 +41,7 @@ class PlanetTypeRepository
 
     public function getPlanetTypesForPlanet($name)
     {
-        $this->queryBuilder->select('pt.*')
+        $this->queryBuilder->select('pt.id', 'pt.type')
             ->from('types', 'pt')
             ->innerJoin('pt', 'planets', 'p', 'pt.id = p.type_id')
             ->where('p.name = :name')

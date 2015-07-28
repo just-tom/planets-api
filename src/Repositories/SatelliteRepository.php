@@ -41,7 +41,7 @@ class SatelliteRepository
 
     public function getSatellitesForPlanet($name)
     {
-        $this->queryBuilder->select('s.*')
+        $this->queryBuilder->select('s.id', 's.name')
             ->from('satellites', 's')
             ->innerJoin('s', 'planets', 'p', 's.planet_id = p.id')
             ->where('p.name = :name')

@@ -13,6 +13,7 @@ class Satellite
         $satellites->get('/', "satellites.controller:index");
         $satellites->get('/{satellite}', "satellites.controller:show");
         $satellites->get('/{satellite}/planets', "satellites.controller:showPlanets");
+        $satellites->get('/{satellite}/planets/{name}', "satellites.controller:showSinglePlanet");
         return $satellites;
     }
 }

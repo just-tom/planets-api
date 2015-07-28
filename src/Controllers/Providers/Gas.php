@@ -13,6 +13,7 @@ class Gas
         $gases->get('/', "gases.controller:index");
         $gases->get('/{formula}', "gases.controller:show");
         $gases->get('/{formula}/planets', "gases.controller:showPlanets");
+        $gases->get('/{formula}/planets/{name}', "gases.controller:showSinglePlanet");
         return $gases;
     }
 }

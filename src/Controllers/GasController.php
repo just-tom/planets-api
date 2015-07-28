@@ -22,4 +22,11 @@ class GasController
         $result = $this->app['planets.repository']->getPlanetsforGas($formula);
         return $this->app->json($result);
     }
+
+    public function showSinglePlanet($formula, $name)
+    {
+        $result = $this->app['planets.repository']
+            ->getPlanetforGas($formula, $name);
+        return $this->app->json($result);
+    }
 }

@@ -41,7 +41,7 @@ class GasRepository
 
     public function getGasesForPlanet($name)
     {
-        $this->queryBuilder->select('g.*')
+        $this->queryBuilder->select('g.id', 'g.formula')
             ->from('planets', 'p')
             ->innerJoin('p', 'planets_gases', 'pg', 'p.id = pg.planet_id')
             ->innerJoin('pg', 'gases', 'g', 'pg.gas_id = g.id')
@@ -67,6 +67,5 @@ class GasRepository
         return $this->queryBuilder
             ->execute()
             ->fetch();
-
     }
 }
