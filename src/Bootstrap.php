@@ -13,6 +13,7 @@ class Bootstrap extends Application
         $app['debug'] = true;
 
         $this->registerProviders();
+        $this->registerRepositories();
         $this->registerControllers();
         $this->registerRoutes();
     }
@@ -35,26 +36,41 @@ class Bootstrap extends Application
         );
     }
 
+    public function registerRepositories()
+    {
+        $this['planets.repository'] = $this->share(function (){
+                return new \EMS\Repositories\PlanetRepository($this);
+            }
+        );
+        $this['gases.repository'] = $this->share(function (){
+                return new \EMS\Repositories\GasRepository($this);
+            }
+        );
+        $this['satellites.repository'] = $this->share(function (){
+                return new \EMS\Repositories\SatelliteRepository($this);
+            }
+        );
+        $this['planet_types.repository'] = $this->share(function (){
+                return new \EMS\Repositories\PlanetTypeRepository($this);
+            }
+        );
+    }
+
     public function registerControllers()
     {
-        $app = $this;
-        $this['planets.controller'] = $this->share(
-            function () use ($app) {
+        $this['planets.controller'] = $this->share(function (){
                 return new \EMS\Controllers\PlanetController($this);
             }
         );
-        $this['gases.controller'] = $this->share(
-            function () use ($app) {
+        $this['gases.controller'] = $this->share(function (){
                 return new \EMS\Controllers\GasController($this);
             }
         );
-        $this['satellites.controller'] = $this->share(
-            function () use ($app) {
+        $this['satellites.controller'] = $this->share(function (){
                 return new \EMS\Controllers\SatelliteController($this);
             }
         );
-        $this['planet_types.controller'] = $this->share(
-            function () use ($app) {
+        $this['planet_types.controller'] = $this->share(function (){
                 return new \EMS\Controllers\PlanetTypeController($this);
             }
         );

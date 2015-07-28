@@ -7,39 +7,19 @@ class PlanetTypeController
 {
     public function index()
     {
-        $result = $this->app['db']->fetchAll('SELECT * FROM types');
+        $result = $this->app['planet_types.repository']->getAllPlanetTypes();
         return $this->app->json($result);
     }
 
     public function show($type)
     {
-        $builder = $this->app['db']->createQueryBuilder();
-        $builder->select('*')->from('types')->where('type = :name')
-            ->setParameter(':name', $type);
-        $handle = $builder->execute();
-        $result = $handle->fetch();
-
+        $result = $this->app['planet_types.repository']->getPlanetType($type);
         return $this->app->json($result);
     }
 
     public function showPlanets($type)
     {
-        $typeCollection = $this->app['db']->createQueryBuilder();
-        $typeCollection->select('*')
-            ->from('types')
-            ->where('type = :type')
-            ->setParameter(':type', $type);
-        $handle = $typeCollection->execute();
-        $result['type'] = $handle->fetch();
-
-        $planetCollection = $this->app['db']->createQueryBuilder();
-        $planetCollection->select('*')
-            ->from('planets')
-            ->where('type_id = :id')
-            ->setParameter(':id', $result['type']['id']);
-        $handle = $planetCollection->execute();
-        $result['planets'] = $handle->fetchAll();
-
+        $result = $this->app['planets.repository']->getPlanetsForType($type);
         return $this->app->json($result);
     }
 }

@@ -12,7 +12,7 @@ class Satellite
         $satellites = $app['controllers_factory'];
         $satellites->get('/', "satellites.controller:index");
         $satellites->get('/{satellite}', "satellites.controller:show");
-        $satellites->get('/{satellite}/planet', "satellites.controller:showPlanet");
+        $satellites->get('/{satellite}/planets', "satellites.controller:showPlanets");
         return $satellites;
     }
 }
