@@ -12,6 +12,7 @@ class PlanetType
         $planetTypes = $app['controllers_factory'];
         $planetTypes->get('/', "planet_types.controller:index");
         $planetTypes->get('/{type}', "planet_types.controller:show");
+        $planetTypes->get('/{type}/planets', "planet_types.controller:showPlanets");
         return $planetTypes;
     }
 }

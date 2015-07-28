@@ -107,7 +107,7 @@ class PlanetController
             ->where('id = :id')
             ->setParameter(':id', $result['planet']['type_id']);
         $handle = $typeCollection->execute();
-        $result['types'] = $handle->fetch();
+        $result['types'] = $handle->fetchAll();
 
         return $this->app->json($result);
     }

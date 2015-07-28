@@ -21,4 +21,27 @@ class SatelliteController
 
         return $this->app->json($result);
     }
+
+    public function showPlanet($satellite)
+    {
+        $satelliteCollection = $this->app['db']->createQueryBuilder();
+        $satelliteCollection->select('*')
+            ->from('satellites')
+            ->where('name = :name')
+            ->setParameter(':name', $satellite);
+        $handle = $satelliteCollection->execute();
+        $result['satellite'] = $handle->fetch();
+
+        $planetCollection = $this->app['db']->createQueryBuilder();
+        $planetCollection->select('*')
+            ->from('planets')
+            ->where('id = :id')
+            ->setParameter(':id', $result['satellite']['planet_id']);
+        $handle = $planetCollection->execute();
+        $result['planet'] = $handle->fetch();
+
+
+        return $this->app->json($result);
+
+    }
 }
