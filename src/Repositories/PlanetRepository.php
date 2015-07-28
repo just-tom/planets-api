@@ -63,7 +63,7 @@ class PlanetRepository
 
         return $this->queryBuilder
             ->execute()
-            ->fetchAll();
+            ->fetch();
     }
 
     public function getPlanetsForSatellite($satellite)
@@ -90,7 +90,7 @@ class PlanetRepository
 
         return $this->queryBuilder
             ->execute()
-            ->fetchAll();
+            ->fetch();
     }
 
     public function getPlanetsForType($planetType)
@@ -117,6 +117,6 @@ class PlanetRepository
 
         return $this->queryBuilder
             ->execute()
-            ->fetchAll();
+            ->fetch();
     }
 }

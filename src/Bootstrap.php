@@ -10,7 +10,7 @@ class Bootstrap extends Application
     public function __construct()
     {
         parent::__construct();
-        $app['debug'] = true;
+        $this['debug'] = true;
 
         $this->registerProviders();
         $this->registerRepositories();
@@ -23,13 +23,17 @@ class Bootstrap extends Application
         $this->register(new \Silex\Provider\ServiceControllerServiceProvider());
         $this->register(new \JDesrosiers\Silex\Provider\CorsServiceProvider());
         $this->register(
+            new \Silex\Provider\TwigServiceProvider(),
+            array('twig.path' => __DIR__ . '/Templates',)
+        );
+        $this->register(
             new \Silex\Provider\DoctrineServiceProvider(),
             array(
                 'db.options' => array(
-                    'driver' => 'pdo_mysql',
-                    'dbname' => 'ems_planets_local',
-                    'host' => '127.0.0.1',
-                    'user' => 'root',
+                    'driver'   => 'pdo_mysql',
+                    'dbname'   => 'ems_planets_local',
+                    'host'     => '127.0.0.1',
+                    'user'     => 'root',
                     'password' => 'password'
                 )
             )
@@ -38,19 +42,23 @@ class Bootstrap extends Application
 
     public function registerRepositories()
     {
-        $this['planets.repository'] = $this->share(function (){
+        $this['planets.repository'] = $this->share(
+            function () {
                 return new \EMS\Repositories\PlanetRepository($this);
             }
         );
-        $this['gases.repository'] = $this->share(function (){
+        $this['gases.repository'] = $this->share(
+            function () {
                 return new \EMS\Repositories\GasRepository($this);
             }
         );
-        $this['satellites.repository'] = $this->share(function (){
+        $this['satellites.repository'] = $this->share(
+            function () {
                 return new \EMS\Repositories\SatelliteRepository($this);
             }
         );
-        $this['planet_types.repository'] = $this->share(function (){
+        $this['planet_types.repository'] = $this->share(
+            function () {
                 return new \EMS\Repositories\PlanetTypeRepository($this);
             }
         );
@@ -58,19 +66,23 @@ class Bootstrap extends Application
 
     public function registerControllers()
     {
-        $this['planets.controller'] = $this->share(function (){
+        $this['planets.controller'] = $this->share(
+            function () {
                 return new \EMS\Controllers\PlanetController($this);
             }
         );
-        $this['gases.controller'] = $this->share(function (){
+        $this['gases.controller'] = $this->share(
+            function () {
                 return new \EMS\Controllers\GasController($this);
             }
         );
-        $this['satellites.controller'] = $this->share(function (){
+        $this['satellites.controller'] = $this->share(
+            function () {
                 return new \EMS\Controllers\SatelliteController($this);
             }
         );
-        $this['planet_types.controller'] = $this->share(function (){
+        $this['planet_types.controller'] = $this->share(
+            function () {
                 return new \EMS\Controllers\PlanetTypeController($this);
             }
         );

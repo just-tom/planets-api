@@ -1,0 +1,9 @@
+{
+{% for key, element in single %}
+{% if not loop.last %}
+    "{{ key }}": "{{ element }}",
+{% else %}
+    "{{ key }}": "{{ element }}"
+{% endif %}
+{% endfor %}
+}

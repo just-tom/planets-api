@@ -30,7 +30,7 @@ class GasRepository
     {
         $this->queryBuilder
             ->select('*')
-            ->from('gas')
+            ->from('gases')
             ->where('formula = :formula')
             ->setParameter(':formula', $formula);
 

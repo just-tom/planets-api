@@ -63,6 +63,6 @@ class SatelliteRepository
 
         return $this->queryBuilder
             ->execute()
-            ->fetchAll();
+            ->fetch();
     }
 }

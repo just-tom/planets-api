@@ -63,6 +63,6 @@ class PlanetTypeRepository
 
         return $this->queryBuilder
             ->execute()
-            ->fetchAll();
+            ->fetch();
     }
 }
