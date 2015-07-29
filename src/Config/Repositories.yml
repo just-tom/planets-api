@@ -1,0 +1,12 @@
+repositories:
+  planets:
+   repository: EMS\Repositories\PlanetRepository
+
+  gases:
+   repository: EMS\Repositories\GasRepository
+
+  satellites:
+   repository: EMS\Repositories\SatelliteRepository
+
+  planet_types:
+   repository: EMS\Repositories\PlanetTypeRepository

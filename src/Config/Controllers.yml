@@ -1,0 +1,12 @@
+app_controllers:
+  planets:
+   controller: EMS\Controllers\PlanetController
+
+  gases:
+   controller: EMS\Controllers\GasController
+
+  satellites:
+   controller: EMS\Controllers\SatelliteController
+
+  planet_types:
+   controller: EMS\Controllers\PlanetTypeController

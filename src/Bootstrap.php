@@ -3,6 +3,7 @@
 namespace EMS;
 
 use Silex\Application;
+use Igorw\Silex\ConfigServiceProvider;
 use EMS\Controllers\Providers as ControllerProvider;
 
 class Bootstrap extends Application
@@ -10,7 +11,11 @@ class Bootstrap extends Application
     public function __construct()
     {
         parent::__construct();
-        $this['debug'] = true;
+
+        $this->register( new ConfigServiceProvider(__DIR__ . "/Config/Config.yml"));
+        foreach ($this['app_config'] as $key => $value) {
+            $this[$key] = $value;
+        }
 
         $this->registerProviders();
         $this->registerRepositories();
@@ -20,79 +25,56 @@ class Bootstrap extends Application
 
     public function registerProviders()
     {
-        $this->register(new \Silex\Provider\ServiceControllerServiceProvider());
-        $this->register(new \JDesrosiers\Silex\Provider\CorsServiceProvider());
         $this->register(
-            new \Silex\Provider\TwigServiceProvider(),
-            array('twig.path' => __DIR__ . '/Templates',)
-        );
-        $this->register(
-            new \Silex\Provider\DoctrineServiceProvider(),
-            array(
-                'db.options' => array(
-                    'driver'   => 'pdo_mysql',
-                    'dbname'   => 'ems_planets_local',
-                    'host'     => '127.0.0.1',
-                    'user'     => 'root',
-                    'password' => 'password'
-                )
+            new ConfigServiceProvider(
+                __DIR__ . "/Config/Providers.yml",
+                array('root_path' => __DIR__)
             )
         );
+
+        foreach ($this['providers'] as $providerData) {
+            $this->register(
+                new $providerData['class'],
+                (array_key_exists('parameters', $providerData))
+                    ? $providerData['parameters'] : array()
+            );
+        }
     }
 
     public function registerRepositories()
     {
-        $this['planets.repository'] = $this->share(
-            function () {
-                return new \EMS\Repositories\PlanetRepository($this);
-            }
+        $this->register(
+            new ConfigServiceProvider(__DIR__ . "/Config/Repositories.yml")
         );
-        $this['gases.repository'] = $this->share(
-            function () {
-                return new \EMS\Repositories\GasRepository($this);
-            }
-        );
-        $this['satellites.repository'] = $this->share(
-            function () {
-                return new \EMS\Repositories\SatelliteRepository($this);
-            }
-        );
-        $this['planet_types.repository'] = $this->share(
-            function () {
-                return new \EMS\Repositories\PlanetTypeRepository($this);
-            }
-        );
+
+        foreach ($this['repositories'] as $repositoryName => $repositoryData) {
+            $this[$repositoryName . '.repository'] = $this->share(
+                function () use ($repositoryData) {
+                    return new $repositoryData['repository']($this);
+                }
+            );
+        }
     }
 
     public function registerControllers()
     {
-        $this['planets.controller'] = $this->share(
-            function () {
-                return new \EMS\Controllers\PlanetController($this);
-            }
+        $this->register(
+            new ConfigServiceProvider(__DIR__ . "/Config/Controllers.yml")
         );
-        $this['gases.controller'] = $this->share(
-            function () {
-                return new \EMS\Controllers\GasController($this);
-            }
-        );
-        $this['satellites.controller'] = $this->share(
-            function () {
-                return new \EMS\Controllers\SatelliteController($this);
-            }
-        );
-        $this['planet_types.controller'] = $this->share(
-            function () {
-                return new \EMS\Controllers\PlanetTypeController($this);
-            }
-        );
+
+        foreach ($this['app_controllers'] as $controllerName => $controllerData) {
+            $this[$controllerName . '.controller'] = $this->share(
+                function () use ($controllerData) {
+                    return new $controllerData['controller']($this);
+                }
+            );
+        }
     }
 
     public function registerRoutes()
     {
-        $app = $this;
         $this->before(
-            function () use ($app) {
+            function (){
                 $this['request_lang'] = 'json';
                 if ($this['request']->get('lang') != null) {
                     $this['request_lang'] = $this['request']->get('lang');

@@ -1,0 +1,25 @@
+providers:
+  doctrine:
+   class: Silex\Provider\DoctrineServiceProvider
+   parameters:
+     db.options:
+       driver: pdo_mysql
+       dbname: ems_planets_local
+       host: 127.0.0.1
+       user: root
+       password: password
+
+  twig:
+    class: Silex\Provider\TwigServiceProvider
+    parameters:
+      twig.path: %root_path%/Templates
+      twig.options:
+          auto_reload: true
+          debug: false
+          cache: %root_path%/Storage/Cache/Twig
+
+  controllers:
+    class: Silex\Provider\ServiceControllerServiceProvider
+
+  cors:
+    class: JDesrosiers\Silex\Provider\CorsServiceProvider
