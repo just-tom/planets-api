@@ -1,0 +1,9 @@
+{
+    "request_status": "ERROR",
+{% if exception %}
+    "code": "{{ code }}"
+    "exception": "{{ exception }}"
+{% else %}
+    "message": "The requested item is not valid. Please check data and retry"
+{% endif %}
+}

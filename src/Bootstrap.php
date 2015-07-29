@@ -3,6 +3,7 @@
 namespace EMS;
 
 use Silex\Application;
+use Symfony\Component\HttpFoundation\Response;
 use Igorw\Silex\ConfigServiceProvider;
 use EMS\Controllers\Providers as ControllerProvider;
 
@@ -51,8 +52,7 @@ class Bootstrap extends Application
             $this[$repositoryName . '.repository'] = $this->share(
                 function () use ($repositoryData) {
                     return new $repositoryData['repository']($this);
-                }
-            );
+                });
         }
     }
 
@@ -66,8 +66,7 @@ class Bootstrap extends Application
             $this[$controllerName . '.controller'] = $this->share(
                 function () use ($controllerData) {
                     return new $controllerData['controller']($this);
-                }
-            );
+                });
         }
     }
 
@@ -75,16 +74,31 @@ class Bootstrap extends Application
     {
         $this->before(
             function (){
-                $this['request_lang'] = 'json';
                 if ($this['request']->get('lang') != null) {
                     $this['request_lang'] = $this['request']->get('lang');
                 }
-            }
-        );
+            });
         $this->mount("/planets", new ControllerProvider\Planet());
         $this->mount("/gases", new ControllerProvider\Gas());
         $this->mount("/satellites", new ControllerProvider\Satellite());
         $this->mount("/planet-types", new ControllerProvider\PlanetType());
         $this->after($this['cors']);
+
+        $this->error(function (\Exception $e, $code) {
+                if ($this['debug']) {
+                    return;
+                }
+                $response = new Response(
+                    $this['twig']->render(
+                        'error.' . $this['request_lang'] . '.twig',
+                        array('exception' => $e->getMessage(), 'code' => $code)
+                    )
+                );
+                $response->headers->set(
+                    'Content-Type',
+                    'application/' . $this['request_lang'] . '; charset=UTF-8'
+                );
+                return $response;
+            });
     }
 }

@@ -1,2 +1,3 @@
 app_config:
- debug: true
+ debug: false
+ request_lang: json

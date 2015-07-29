@@ -10,7 +10,7 @@ class Planet
     public function connect(Application $app)
     {
         $planets = $app['controllers_factory'];
-        $planets->get('/', "planets.controller:index");
+        $planets->get('/all', "planets.controller:index");
         $planets->get('/{name}', "planets.controller:show");
         $planets->get('/{name}/gases', "planets.controller:showGases");
         $planets->get('/{name}/gases/{formula}', "planets.controller:showSingleGas");

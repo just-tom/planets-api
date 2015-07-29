@@ -27,6 +27,12 @@ abstract class ControllerAbstract
 
     protected function setDataOnResponse($results, $type)
     {
+        if(!$results){
+            return $this->app['twig']->render(
+                'error.' . $this->app['request_lang'] . '.twig',
+                array('exception' => null, 'code' => null)
+            );
+        }
         return $this->app['twig']->render(
             $type . '.' . $this->app['request_lang'] . '.twig',
             array($type => $results)
