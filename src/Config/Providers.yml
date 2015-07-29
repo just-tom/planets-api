@@ -4,8 +4,8 @@ providers:
    parameters:
      db.options:
        driver: pdo_mysql
-       dbname: ems_planets_local
-       host: 127.0.0.1
+       dbname: db_name
+       host: hostname
        user: root
        password: password
 
