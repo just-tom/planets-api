@@ -13,7 +13,9 @@ class Bootstrap extends Application
     {
         parent::__construct();
 
-        $this->register( new ConfigServiceProvider(__DIR__ . "/Config/Config.yml"));
+        $this->register(
+            new ConfigServiceProvider(__DIR__ . "/Config/Config.yml")
+        );
         foreach ($this['app_config'] as $key => $value) {
             $this[$key] = $value;
         }
@@ -52,7 +54,8 @@ class Bootstrap extends Application
             $this[$repositoryName . '.repository'] = $this->share(
                 function () use ($repositoryData) {
                     return new $repositoryData['repository']($this);
-                });
+                }
+            );
         }
     }
 
@@ -62,29 +65,33 @@ class Bootstrap extends Application
             new ConfigServiceProvider(__DIR__ . "/Config/Controllers.yml")
         );
 
-        foreach ($this['app_controllers'] as $controllerName => $controllerData) {
+        foreach ($this['app_controllers'] as $controllerName => $controllerData)
+        {
             $this[$controllerName . '.controller'] = $this->share(
                 function () use ($controllerData) {
                     return new $controllerData['controller']($this);
-                });
+                }
+            );
         }
     }
 
     public function registerRoutes()
     {
         $this->before(
-            function (){
+            function () {
                 if ($this['request']->get('lang') != null) {
                     $this['request_lang'] = $this['request']->get('lang');
                 }
-            });
+            }
+        );
         $this->mount("/planets", new ControllerProvider\Planet());
         $this->mount("/gases", new ControllerProvider\Gas());
         $this->mount("/satellites", new ControllerProvider\Satellite());
         $this->mount("/planet-types", new ControllerProvider\PlanetType());
         $this->after($this['cors']);
 
-        $this->error(function (\Exception $e, $code) {
+        $this->error(
+            function (\Exception $e, $code) {
                 if ($this['debug']) {
                     return;
                 }
@@ -98,7 +105,9 @@ class Bootstrap extends Application
                     'Content-Type',
                     'application/' . $this['request_lang'] . '; charset=UTF-8'
                 );
+
                 return $response;
-            });
+            }
+        );
     }
 }

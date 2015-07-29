@@ -10,18 +10,21 @@ class PlanetController
     public function index()
     {
         $result = $this->app['planets.repository']->getAllPlanets();
+
         return $this->getResponseObject($result, 'collection');
     }
 
     public function show($name)
     {
         $result = $this->app['planets.repository']->getPlanet($name);
+
         return $this->getResponseObject($result, 'single');
     }
 
     public function showGases($name)
     {
         $result = $this->app['gases.repository']->getGasesForPlanet($name);
+
         return $this->getResponseObject($result, 'collection');
     }
 
@@ -29,6 +32,7 @@ class PlanetController
     {
         $result = $this->app['gases.repository']
             ->getGasForPlanet($name, $formula);
+
         return $this->getResponseObject($result, 'single');
     }
 
@@ -36,6 +40,7 @@ class PlanetController
     {
         $result = $this->app['satellites.repository']
             ->getSatellitesForPlanet($name);
+
         return $this->getResponseObject($result, 'collection');
     }
 
@@ -43,6 +48,7 @@ class PlanetController
     {
         $result = $this->app['satellites.repository']
             ->getSatelliteForPlanet($name, $satellite);
+
         return $this->getResponseObject($result, 'single');
     }
 
@@ -50,6 +56,7 @@ class PlanetController
     {
         $result = $this->app['planet_types.repository']
             ->getPlanetTypesForPlanet($name);
+
         return $this->getResponseObject($result, 'collection');
     }
 
@@ -57,6 +64,7 @@ class PlanetController
     {
         $result = $this->app['planet_types.repository']
             ->getPlanetTypeForPlanet($name, $type);
+
         return $this->getResponseObject($result, 'single');
     }
 }

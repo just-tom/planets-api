@@ -8,12 +8,14 @@ class SatelliteController
     public function index()
     {
         $result = $this->app['satellites.repository']->getAllSatellites();
+
         return $this->getResponseObject($result, 'collection');
     }
 
     public function show($satellite)
     {
         $result = $this->app['satellites.repository']->getSatellite($satellite);
+
         return $this->getResponseObject($result, 'single');
     }
 
@@ -21,6 +23,7 @@ class SatelliteController
     {
         $result = $this->app['planets.repository']
             ->getPlanetsForSatellite($satellite);
+
         return $this->getResponseObject($result, 'collection');
     }
 
@@ -28,6 +31,7 @@ class SatelliteController
     {
         $result = $this->app['planets.repository']
             ->getPlanetForSatellite($satellite, $name);
+
         return $this->getResponseObject($result, 'single');
     }
 }

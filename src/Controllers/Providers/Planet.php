@@ -13,11 +13,27 @@ class Planet
         $planets->get('/all', "planets.controller:index");
         $planets->get('/{name}', "planets.controller:show");
         $planets->get('/{name}/gases', "planets.controller:showGases");
-        $planets->get('/{name}/gases/{formula}', "planets.controller:showSingleGas");
-        $planets->get('/{name}/satellites', "planets.controller:showSatellites");
-        $planets->get('/{name}/satellites/{satellite}', "planets.controller:showSingleSatellite");
-        $planets->get('/{name}/planet-types', "planets.controller:showPlanetTypes");
-        $planets->get('/{name}/planet-types/{type}', "planets.controller:showSinglePlanetType");
+        $planets->get(
+            '/{name}/gases/{formula}',
+            "planets.controller:showSingleGas"
+        );
+        $planets->get(
+            '/{name}/satellites',
+            "planets.controller:showSatellites"
+        );
+        $planets->get(
+            '/{name}/satellites/{satellite}',
+            "planets.controller:showSingleSatellite"
+        );
+        $planets->get(
+            '/{name}/planet-types',
+            "planets.controller:showPlanetTypes"
+        );
+        $planets->get(
+            '/{name}/planet-types/{type}',
+            "planets.controller:showSinglePlanetType"
+        );
+
         return $planets;
     }
 }

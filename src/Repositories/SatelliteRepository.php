@@ -59,7 +59,9 @@ class SatelliteRepository
             ->innerJoin('s', 'planets', 'p', 's.planet_id = p.id')
             ->where('p.name = :name')
             ->andWhere('s.name = :satellite')
-            ->setParameters(array(':name' => $name, ':satellite' => $satellite));
+            ->setParameters(
+                array(':name' => $name, ':satellite' => $satellite)
+            );
 
         return $this->queryBuilder
             ->execute()

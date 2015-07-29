@@ -22,17 +22,19 @@ abstract class ControllerAbstract
             'Content-Type',
             'application/' . $this->app['request_lang'] . '; charset=UTF-8'
         );
+
         return $response;
     }
 
     protected function setDataOnResponse($results, $type)
     {
-        if(!$results){
+        if (!$results) {
             return $this->app['twig']->render(
                 'error.' . $this->app['request_lang'] . '.twig',
                 array('exception' => null, 'code' => null)
             );
         }
+
         return $this->app['twig']->render(
             $type . '.' . $this->app['request_lang'] . '.twig',
             array($type => $results)

@@ -86,7 +86,9 @@ class PlanetRepository
             ->innerJoin('s', 'planets', 'p', 's.planet_id = p.id')
             ->where('s.name = :satellite')
             ->andWhere('p.name = :name')
-            ->setParameters(array(':satellite' => $satellite, ':name' => $name));
+            ->setParameters(
+                array(':satellite' => $satellite, ':name' => $name)
+            );
 
         return $this->queryBuilder
             ->execute()
@@ -113,7 +115,9 @@ class PlanetRepository
             ->innerJoin('p', 'types', 't', 'p.type_id = t.id')
             ->where('t.type = :planet_type')
             ->andWhere('p.name = :name')
-            ->setParameters(array(':planet_type' => $planetType, ':name' => $name));
+            ->setParameters(
+                array(':planet_type' => $planetType, ':name' => $name)
+            );
 
         return $this->queryBuilder
             ->execute()
